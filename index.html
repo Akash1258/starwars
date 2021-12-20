@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+    
+</head>
+
+
+<body>
+
+    
+    <section>
+       
+        <audio id="myAudio">
+            <source src="StarWars.mp3" type="audio/ogg">
+            <source src="StarWars.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        <button id="pause" onclick="playAudio()"></i><i class="fas fa-volume-mute"></i></button>
+        <button id="play" onclick="pauseAudio()"><i class="fas fa-volume-up"></i></button>
+        <div class="content">Bearer
+            <h1>Star Wars</h1>
+            <div class="container">
+
+
+                <input type="text" id="find" placeholder="Search Characters" oninput="debounce(main,1000)">
+                <span class="search_icon"><i class="fas fa-search"></i></span>
+                <hr>
+                <div id="display"></div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+<script>
+
+    var x=document.getElementById("myAudio")
+    function playAudio(){
+        // let audio=new Audio(`StarWars.mp3`);
+        x.play();
+
+         let start=document.getElementById("play");
+         start.style.display="block"
+
+         let stop=document.getElementById("pause")
+         stop.style.display="none";
+
+    }
+
+    function pauseAudio(){
+        let start=document.getElementById("play");
+         start.style.display="none"
+
+         let stop=document.getElementById("pause")
+         stop.style.display="block";
+        
+        //  let audio=new Audio(`StarWars.mp3`);
+        x.pause();
+
+    }
+
+
+    let show_div = document.getElementById("display");
+
+    let timerId;
+
+    async function searchPerson(n) {
+        let res = await fetch(`https://swapi.dev/api/people/?search=${n}`)
+        let data = await res.json();
+
+        return data.results;
+
+    }
+
+    function appenPerson(person) {
+        show_div.style.display = "block"
+        show_div.innerHTML = null
+        //person.forEach(({ name, gender }) => {
+        person.forEach((details) => {
+
+            let p = document.createElement("p")
+            p.innerText = details.name
+
+            p.style.display = "grid"
+            p.style.gridTemplateColumns = `70% 30%`
+            p.style.textAlign = "left"
+            p.style.cursor = "pointer"
+            p.style.marginLeft=`10%`
+
+            p.addEventListener('click', function () {
+                show(details)
+            })
+
+            
+
+            let span = document.createElement("span")
+            // span.style.marginLeft = `10px`;
+            span.innerText = details.gender
+            span.style.textAlign = "right"
+            span.style.marginRight = `40%`
+
+
+            p.append(span)
+
+            show_div.append(p)
+        });
+
+    }
+
+    function show(p) {
+        localStorage.setItem("detail", JSON.stringify(p));
+        window.location.href = "showDetail.html"
+    }
+
+
+    async function main() {
+        let name = document.getElementById("find").value;
+
+        if (name.length < 3) {
+            return false
+        }
+        let person = await searchPerson(name);
+// console.log(person);
+        console.log(person);
+        if (person === undefined) {
+            return false
+        }
+        appenPerson(person)
+
+    }
+
+
+    function debounce(main, delay) {
+
+        if (timerId) {
+            clearTimeout(timerId)
+        }
+        timerId = setTimeout(() => {
+            main();
+        }, delay)
+    }
+</script>
+
+<script src="https:kit.fontawesome.com/67c66657c7.js"></script>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+
+<body>
+
+
+
+    <section>
+      
+       
+
+        <div class="details">
+            <h2 id="name" style="color: white;"></h2>
+            <div class="cont">
+                <div id="pInfo">
+                    <h3>Personal Info</h3>
+                    <p id="birthYr"></p>
+                    <p id="gender"></p>
+                    <p id="height"></p>
+                </div>
+                <div class="gap">
+                </div>
+                <div id="anatomy">
+                    <h3>Anatomy</h3>
+                    <p id="eyeColor"></p>
+                    <p id="mass"></p>
+                    <p id="hairColor"></p>
+                </div>
+            </div>
+            <button onclick="back()" id="btn">Back</button>
+        </div>
+    </section>
+</body>
+
+<script>
+    let data = JSON.parse(localStorage.getItem("detail"))
+
+    let p_name = document.getElementById("name");
+    p_name.innerText = `${data.name}`;
+
+    let dob = document.getElementById("birthYr");
+    dob.innerText = `Birth Year : ${data.birth_year}`;
+
+    let gender = document.getElementById("gender");
+    gender.innerText = `Gender : ${data.gender}`
+
+    let height = document.getElementById("height");
+    height.innerText = `Height : ${data.height}`
+
+    let eyeColor = document.getElementById("eyeColor");
+    eyeColor.innerText = `Eye Color : ${data.eye_color}`
+
+    let mass = document.getElementById("mass")
+    mass.innerText = `Mass : ${data.mass}`
+
+    let hairColor = document.getElementById("hairColor");
+    hairColor.innerText = `Hair Color : ${data.hair_color}`
+
+
+    function back() {
+        window.location.href = "index.html"
+    }
+</script>
+
+</html>
